@@ -388,34 +388,51 @@ function displayNews(articles) {
 
 function getWeatherIcon(code, hour) {
     const isDay = hour > 6 && hour < 18;
-    
-    // Ícone de lua estilizado para céu limpo à noite, do próprio OpenWeatherMap
-    const nightIcon = 'http://openweathermap.org/img/wn/01n.png';
+    const iconBaseUrl = 'https://openweathermap.org/img/wn/';
 
+    // Mapeamento de códigos WMO para ícones do OpenWeatherMap
     const iconMap = {
-        0: isDay ? 'http://openweathermap.org/img/wn/01d.png' : nightIcon,
-        1: isDay ? 'http://openweathermap.org/img/wn/01d.png' : nightIcon,
-        2: isDay ? 'http://openweathermap.org/img/wn/02d.png' : 'http://openweathermap.org/img/wn/02n.png',
-        3: 'http://openweathermap.org/img/wn/04d.png',
-        45: 'http://openweathermap.org/img/wn/50d.png',
-        48: 'http://openweathermap.org/img/wn/50d.png',
-        51: 'http://openweathermap.org/img/wn/09d.png',
-        53: 'http://openweathermap.org/img/wn/09d.png',
-        55: 'http://openweathermap.org/img/wn/09d.png',
-        61: 'http://openweathermap.org/img/wn/10d.png',
-        63: 'http://openweathermap.org/img/wn/10d.png',
-        65: 'http://openweathermap.org/img/wn/10d.png',
-        71: 'http://openweathermap.org/img/wn/13d.png',
-        73: 'http://openweathermap.org/img/wn/13d.png',
-        75: 'http://openweathermap.org/img/wn/13d.png',
-        80: 'http://openweathermap.org/img/wn/09d.png',
-        81: 'http://openweathermap.org/img/wn/09d.png',
-        82: 'http://openweathermap.org/img/wn/09d.png',
-        95: 'http://openweathermap.org/img/wn/11d.png',
-        96: 'http://openweathermap.org/img/wn/11d.png',
-        99: 'http://openweathermap.org/img/wn/11d.png',
+        // Céu Limpo
+        0: isDay ? '01d' : '01n',
+        1: isDay ? '01d' : '01n',
+        // Nuvens
+        2: isDay ? '02d' : '02n',
+        3: isDay ? '04d' : '04n',
+        // Chuvisco
+        51: '09d',
+        53: '09d',
+        55: '09d',
+        // Chuva
+        56: '09d', // Chuvisco congelante
+        57: '09d', // Chuvisco congelante
+        61: '10d', // Chuva leve
+        63: '10d', // Chuva moderada
+        65: '10d', // Chuva forte
+        66: '09d', // Chuva congelante leve
+        67: '09d', // Chuva congelante forte
+        // Neve
+        71: '13d', // Neve leve
+        73: '13d', // Neve moderada
+        75: '13d', // Neve forte
+        77: '13d', // Granizo de neve
+        // Pancadas de chuva
+        80: '09d',
+        81: '09d',
+        82: '09d',
+        // Pancadas de neve/granizo
+        85: '13d',
+        86: '13d',
+        // Tempestade
+        95: '11d',
+        96: '11d',
+        99: '11d',
+        // Névoa
+        45: '50d',
+        48: '50d',
     };
-    return iconMap[code] || 'http://openweathermap.org/img/wn/01d.png';
+    
+    const iconCode = iconMap[code] || '01d'; // '01d' como fallback
+    return `${iconBaseUrl}${iconCode}.png`;
 }
 
 function getWeatherDescription(code) {
