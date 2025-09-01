@@ -392,46 +392,40 @@ function getWeatherIcon(code, hour) {
 
     // Mapeamento de códigos WMO para ícones do OpenWeatherMap
     const iconMap = {
-        // Céu Limpo
+        // Céu Limpo / Maioritariamente limpo
         0: isDay ? '01d' : '01n',
         1: isDay ? '01d' : '01n',
         // Nuvens
-        2: isDay ? '02d' : '02n',
-        3: isDay ? '04d' : '04n',
+        2: isDay ? '02d' : '02n', // Nuvens esparsas
+        3: isDay ? '04d' : '04n', // Nublado
+        45: isDay ? '50d' : '50n', // Névoa
+        48: isDay ? '50d' : '50n', // Neblina
         // Chuvisco
         51: '09d',
         53: '09d',
         55: '09d',
         // Chuva
-        56: '09d', // Chuvisco congelante
-        57: '09d', // Chuvisco congelante
         61: '10d', // Chuva leve
         63: '10d', // Chuva moderada
         65: '10d', // Chuva forte
-        66: '09d', // Chuva congelante leve
-        67: '09d', // Chuva congelante forte
+        80: '09d', // Pancadas de chuva leves
+        81: '09d', // Pancadas de chuva moderadas
+        82: '09d', // Pancadas de chuva violentas
         // Neve
-        71: '13d', // Neve leve
-        73: '13d', // Neve moderada
-        75: '13d', // Neve forte
-        77: '13d', // Granizo de neve
-        // Pancadas de chuva
-        80: '09d',
-        81: '09d',
-        82: '09d',
-        // Pancadas de neve/granizo
-        85: '13d',
-        86: '13d',
-        // Tempestade
-        95: '11d',
-        96: '11d',
-        99: '11d',
-        // Névoa
-        45: '50d',
-        48: '50d',
+        71: '13d',
+        73: '13d',
+        75: '13d',
+        77: '13d', // Granizo
+        85: '13d', // Pancadas de neve leves
+        86: '13d', // Pancadas de neve fortes
+        // Tempestades
+        95: '11d', // Trovoada
+        96: '11d', // Trovoada com granizo leve
+        99: '11d', // Trovoada com granizo forte
     };
     
-    const iconCode = iconMap[code] || '01d'; // '01d' como fallback
+    // Fallback: se o código não for encontrado, usa o ícone de céu limpo (dia)
+    const iconCode = iconMap[code] || '01d'; 
     return `${iconBaseUrl}${iconCode}.png`;
 }
 
