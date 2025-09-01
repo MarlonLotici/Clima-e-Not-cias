@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clima e Notícias</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">
+        
+        <div class="weather-container" id="main-content">
+            <h1 class="title">Clima e Notícias</h1>
+            <div class="search-box">
+                <input type="text" id="city-input" list="cities-datalist" placeholder="Digite uma cidade..." autocomplete="off">
+                <datalist id="cities-datalist"></datalist>
+                <button id="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="loading-spinner" id="loading-spinner"></div>
+            <p class="feedback-message" id="feedback-message"></p>
+
+            <div id="weather-info" class="weather-info hidden">
+                <div class="header-weather">
+                    <h2 class="city-name" id="city-name"></h2>
+                    <div class="controls">
+                        <div id="local-time" class="local-time">
+                            <span class="day-of-week"></span>
+                            <span class="date-full"></span>
+                            <span class="time-only"></span>
+                        </div>
+                        <button id="temp-toggle" class="temp-toggle">°F</button>
+                    </div>
+                </div>
+                <div class="current-weather">
+                    <img id="weather-icon" src="" alt="Ícone do clima">
+                    <p class="temperature" id="temp"></p>
+                </div>
+                <div class="details-grid">
+                    <p class="description" id="description"></p>
+                    <p class="humidity" id="humidity"></p>
+                    <p class="wind-speed" id="wind-speed"></p>
+                    <p class="rain-volume" id="rain-volume"></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="hourly-forecast" class="hourly-forecast hidden">
+            <h2 class="section-title">Previsão Horária</h2>
+            <div id="hourly-container" class="hourly-container"></div>
+        </div>
+
+        <div id="forecast-tabs" class="forecast-tabs hidden">
+            <button class="forecast-btn active" data-days="3">3 dias</button>
+            <button class="forecast-btn" data-days="5">5 dias</button>
+        </div>
+        <div id="forecast-container" class="forecast-container hidden"></div>
+
+        <div id="news-container" class="news-container hidden">
+            <h2 class="news-title">Últimas Notícias</h2>
+            <div class="news-controls">
+                <label for="news-topic">Tópico:</label>
+                <select id="news-topic" class="news-select">
+                    <option value="breaking-news">Últimas notícias</option>
+                    <option value="world">Mundo</option>
+                    <option value="nation">Nacional</option>
+                    <option value="business">Negócios</option>
+                    <option value="technology">Tecnologia</option>
+                    <option value="entertainment">Entretenimento</option>
+                    <option value="sports">Esportes</option>
+                    <option value="science">Ciência</option>
+                    <option value="health">Saúde</option>
+                </select>
+            </div>
+            <div id="news-list" class="news-list"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
