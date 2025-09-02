@@ -388,45 +388,34 @@ function displayNews(articles) {
 
 function getWeatherIcon(code, hour) {
     const isDay = hour > 6 && hour < 18;
-    const iconBaseUrl = 'https://openweathermap.org/img/wn/';
-
-    // Mapeamento de códigos WMO para ícones do OpenWeatherMap
-    const iconMap = {
-        // Céu Limpo / Maioritariamente limpo
-        0: isDay ? '01d' : '01n',
-        1: isDay ? '01d' : '01n',
-        // Nuvens
-        2: isDay ? '02d' : '02n', // Nuvens esparsas
-        3: isDay ? '04d' : '04n', // Nublado
-        45: isDay ? '50d' : '50n', // Névoa
-        48: isDay ? '50d' : '50n', // Neblina
-        // Chuvisco
-        51: '09d',
-        53: '09d',
-        55: '09d',
-        // Chuva
-        61: '10d', // Chuva leve
-        63: '10d', // Chuva moderada
-        65: '10d', // Chuva forte
-        80: '09d', // Pancadas de chuva leves
-        81: '09d', // Pancadas de chuva moderadas
-        82: '09d', // Pancadas de chuva violentas
-        // Neve
-        71: '13d',
-        73: '13d',
-        75: '13d',
-        77: '13d', // Granizo
-        85: '13d', // Pancadas de neve leves
-        86: '13d', // Pancadas de neve fortes
-        // Tempestades
-        95: '11d', // Trovoada
-        96: '11d', // Trovoada com granizo leve
-        99: '11d', // Trovoada com granizo forte
-    };
     
-    // Fallback: se o código não for encontrado, usa o ícone de céu limpo (dia)
-    const iconCode = iconMap[code] || '01d'; 
-    return `${iconBaseUrl}${iconCode}.png`;
+    // URL da imagem de lua mais bonita (substitua pelo caminho do seu arquivo)
+    const nightIcon = 'http://googleusercontent.com/image_generation_content/0';
+
+    const iconMap = {
+        0: isDay ? 'http://openweathermap.org/img/wn/01d.png' : nightIcon,
+        1: isDay ? 'http://openweathermap.org/img/wn/01d.png' : nightIcon,
+        2: isDay ? 'http://openweathermap.org/img/wn/02d.png' : 'http://openweathermap.org/img/wn/02n.png',
+        3: 'http://openweathermap.org/img/wn/04d.png',
+        45: 'http://openweathermap.org/img/wn/50d.png',
+        48: 'http://openweathermap.org/img/wn/50d.png',
+        51: 'http://openweathermap.org/img/wn/09d.png',
+        53: 'http://openweathermap.org/img/wn/09d.png',
+        55: 'http://openweathermap.org/img/wn/09d.png',
+        61: 'http://openweathermap.org/img/wn/10d.png',
+        63: 'http://openweathermap.org/img/wn/10d.png',
+        65: 'http://openweathermap.org/img/wn/10d.png',
+        71: 'http://openweathermap.org/img/wn/13d.png',
+        73: 'http://openweathermap.org/img/wn/13d.png',
+        75: 'http://openweathermap.org/img/wn/13d.png',
+        80: 'http://openweathermap.org/img/wn/09d.png',
+        81: 'http://openweathermap.org/img/wn/09d.png',
+        82: 'http://openweathermap.org/img/wn/09d.png',
+        95: 'http://openweathermap.org/img/wn/11d.png',
+        96: 'http://openweathermap.org/img/wn/11d.png',
+        99: 'http://openweathermap.org/img/wn/11d.png',
+    };
+    return iconMap[code] || 'http://openweathermap.org/img/wn/01d.png';
 }
 
 function getWeatherDescription(code) {
