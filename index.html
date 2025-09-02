@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard do Clima</title>
-    
     <link rel="stylesheet" href="style.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -61,6 +59,7 @@
                 <p id="weather-description"></p>
                 
                 <div class="details-grid">
+                    <p><i data-feather="umbrella" class="icon-inline"></i> Precipitação: <span id="precipitation"></span></p>
                     <p><i data-feather="thermometer" class="icon-inline"></i> Sensação: <span id="feels-like"></span></p>
                     <p><i data-feather="droplet" class="icon-inline"></i> Umidade: <span id="humidity"></span></p>
                     <p><i data-feather="wind" class="icon-inline"></i> Vento: <span id="wind-speed"></span></p>
@@ -74,29 +73,31 @@
             <p id="error-message" class="error-message hidden"></p>
         </div>
 
-        <div class="hourly-forecast card hidden">
-            <h3 class="section-title">Previsão por Hora</h3>
-            <div class="hourly-container" id="hourly-forecast"></div>
-        </div>
-
-        <div class="daily-forecast card hidden">
-            <h3 class="section-title">Previsão para 7 Dias</h3>
-            <div class="forecast-container" id="forecast-container"></div>
-        </div>
-
-        <div class="news-container card hidden">
-            <h3 class="section-title news-title">Últimas Notícias</h3>
-            <div class="news-controls">
-                <label for="news-category" class="news-label hidden">Categoria de Notícias</label>
-                <select id="news-category" class="news-select">
-                    <option value="general">Geral</option>
-                    <option value="technology">Tecnologia</option>
-                    <option value="sports">Esportes</option>
-                    <option value="business">Negócios</option>
-                    <option value="science">Ciência</option>
-                </select>
+        <div class="layout-grid">
+            <div class="hourly-forecast card hidden">
+                <h3 class="section-title">Previsão por Hora</h3>
+                <div class="hourly-container" id="hourly-forecast"></div>
             </div>
-            <div class="news-list" id="news-list"></div>
+    
+            <div class="daily-forecast card hidden">
+                <h3 class="section-title">Previsão para 5 Dias</h3>
+                <div class="forecast-container" id="forecast-container"></div>
+            </div>
+    
+            <div class="news-container card hidden">
+                <h3 class="section-title news-title">Últimas Notícias</h3>
+                <div class="news-controls">
+                    <label for="news-category" class="visually-hidden">Categoria de Notícias</label>
+                    <select id="news-category" class="news-select">
+                        <option value="general">Geral</option>
+                        <option value="technology">Tecnologia</option>
+                        <option value="sports">Esportes</option>
+                        <option value="business">Negócios</option>
+                        <option value="science">Ciência</option>
+                    </select>
+                </div>
+                <div class="news-list" id="news-list"></div>
+            </div>
         </div>
     </div>
     

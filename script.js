@@ -14,6 +14,7 @@ const domElements = {
     feelsLike: document.getElementById('feels-like'),
     humidity: document.getElementById('humidity'),
     windSpeed: document.getElementById('wind-speed'),
+    precipitation: document.getElementById('precipitation'), // NOVO ELEMENTO
     tempToggle: document.getElementById('temp-toggle'),
     loadingSpinner: document.getElementById('loading'),
     errorMessage: document.getElementById('error-message'),
@@ -66,15 +67,16 @@ const convertTemperature = (temp) => {
 
 const getAQIDescription = (aqi) => {
     let description = '';
+    let className = `aqi-${aqi}`;
     switch (aqi) {
         case 1: description = 'Bom'; break;
         case 2: description = 'Razoável'; break;
         case 3: description = 'Moderado'; break;
         case 4: description = 'Ruim'; break;
         case 5: description = 'Muito Ruim'; break;
-        default: description = 'N/A';
+        default: description = 'N/A'; className = '';
     }
-    return `<span class="aqi-${aqi}">${description}</span>`;
+    return `<span class="aqi-tag ${className}">${description}</span>`;
 };
 
 // --- CONTROLE DE UI ---
@@ -131,7 +133,7 @@ const fetchWeatherData = async (city) => {
     }
 };
 
-// --- ATUALIZAÇÃO DA INTERFACE ---
+// --- ATUALIZAÇÃO DA INTERFACE (COM CARDS DETALHADOS) ---
 const updateUI = () => {
     const { weather, forecast, aqi } = currentWeatherData;
     if (timeInterval) clearInterval(timeInterval);
@@ -157,32 +159,77 @@ const updateUI = () => {
     domElements.visibility.textContent = `${(weather.visibility / 1000).toFixed(1)} km`;
     domElements.aqi.innerHTML = getAQIDescription(aqi);
 
-    domElements.hourlyForecastContainer.innerHTML = forecast.list.slice(0, 8).map(hour => `
-        <div class="hourly-item">
-            <p>${formatTime(hour.dt, timezone)}</p>
-            <img src="https://openweathermap.org/img/wn/${hour.weather[0].icon}.png" alt="${hour.weather[0].description}">
-            <p>${convertTemperature(hour.main.temp)}</p>
-        </div>
-    `).join('');
+    // --- LÓGICA DA PRECIPITAÇÃO ---
+    // Pega a precipitação da última hora (se houver)
+    const precipLastHour = (weather.rain && weather.rain['1h']) || (weather.snow && weather.snow['1h']) || 0;
+    
+    // Calcula o total de precipitação para o dia atual a partir da previsão
+    const todayDateStr = new Date((weather.dt + timezone) * 1000).toISOString().split('T')[0];
+    let precipToday = 0;
+    forecast.list.forEach(item => {
+        const itemDateStr = new Date((item.dt + timezone) * 1000).toISOString().split('T')[0];
+        if (itemDateStr === todayDateStr) {
+            precipToday += (item.rain && item.rain['3h']) || (item.snow && item.snow['3h']) || 0;
+        }
+    });
+    
+    domElements.precipitation.textContent = `${precipLastHour.toFixed(1)} mm (hora) / ${precipToday.toFixed(1)} mm (dia)`;
 
+
+    // --- ATUALIZAÇÃO DA PREVISÃO POR HORA ---
+    domElements.hourlyForecastContainer.innerHTML = forecast.list.slice(0, 8).map(hour => {
+        const rainProb = hour.pop ? (hour.pop * 100).toFixed(0) : 0;
+        return `
+            <div class="hourly-item">
+                <p class="forecast-time">${formatTime(hour.dt, timezone)}</p>
+                <img src="https://openweathermap.org/img/wn/${hour.weather[0].icon}.png" alt="${hour.weather[0].description}">
+                <p class="forecast-temp">${convertTemperature(hour.main.temp)}</p>
+                <div class="forecast-details">
+                    <p><i data-feather="umbrella" class="details-icon"></i> ${rainProb}%</p>
+                    <p><i data-feather="wind" class="details-icon"></i> ${(hour.wind.speed * 3.6).toFixed(0)} km/h</p>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    // --- ATUALIZAÇÃO DA PREVISÃO PARA 5 DIAS ---
     const dailyForecasts = {};
     forecast.list.forEach(item => {
         const date = new Date((item.dt + timezone) * 1000).toISOString().split('T')[0];
         if (!dailyForecasts[date]) {
-            dailyForecasts[date] = { temps: [], icon: item.weather[0].icon, description: item.weather[0].description };
+            dailyForecasts[date] = {
+                temps: [], winds: [], humidities: [], rains: [],
+                icon: item.weather[0].icon, description: item.weather[0].description
+            };
         }
         dailyForecasts[date].temps.push(item.main.temp);
+        dailyForecasts[date].winds.push(item.wind.speed);
+        dailyForecasts[date].humidities.push(item.main.humidity);
+        if (item.rain && item.rain['3h']) {
+            dailyForecasts[date].rains.push(item.rain['3h']);
+        }
     });
 
     domElements.dailyForecastContainer.innerHTML = Object.keys(dailyForecasts).slice(0, 5).map(date => {
         const dayData = dailyForecasts[date];
         const timestamp = new Date(date).getTime() / 1000;
-        const { dayOfWeek } = getFormattedDate(timestamp, 0); // timezone is already applied
+        const { dayOfWeek } = getFormattedDate(timestamp, 0);
+
+        const avgWind = (dayData.winds.reduce((a, b) => a + b, 0) / dayData.winds.length) * 3.6;
+        const avgHumidity = dayData.humidities.reduce((a, b) => a + b, 0) / dayData.humidities.length;
+        const totalRain = dayData.rains.reduce((a, b) => a + b, 0);
+
         return `
             <div class="forecast-item">
-                <h3>${dayOfWeek.substring(0, 3)}.</h3>
+                <h3 class="daily-day">${dayOfWeek.substring(0, 3)}.</h3>
                 <img src="https://openweathermap.org/img/wn/${dayData.icon}.png" alt="${dayData.description}" class="weather-icon-medium">
-                <p><strong>${convertTemperature(Math.max(...dayData.temps))}</strong> / ${convertTemperature(Math.min(...dayData.temps))}</p>
+                <p class="daily-temp"><strong>${convertTemperature(Math.max(...dayData.temps))}</strong> / ${convertTemperature(Math.min(...dayData.temps))}</p>
+                <p class="daily-description">${dayData.description}</p>
+                <div class="daily-details-container">
+                    <p><i data-feather="umbrella" class="details-icon"></i> ${totalRain.toFixed(1)} mm</p>
+                    <p><i data-feather="wind" class="details-icon"></i> ${avgWind.toFixed(0)} km/h</p>
+                    <p><i data-feather="droplet" class="details-icon"></i> ${Math.round(avgHumidity)}%</p>
+                </div>
             </div>
         `;
     }).join('');
