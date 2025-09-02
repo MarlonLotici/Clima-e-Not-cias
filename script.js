@@ -1,6 +1,6 @@
 // ** ATENÇÃO: Substitua pelas suas chaves de API reais! **
 const WEATHER_API_KEY = 'f0e1675e976256e9e65a2dd2390a9326'; // <-- COLE SUA CHAVE AQUI
-const NEWS_API_KEY = 'bf0cf23bc1f64be28fbd2e7ae4668b9b';
+const NEWS_API_KEY = '04a0f859492f488ea87b3b80525dfd35';
 
 // --- MAPEAMENTO DOS ELEMENTOS DO DOM ---
 const domElements = {
