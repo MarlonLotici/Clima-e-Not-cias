@@ -3,85 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clima e Notícias</title>
+    <title>Dashboard do Clima</title>
+    
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <div class="main-container">
+        <header class="main-header">
+            <h1 class="title">Dashboard do Clima</h1>
+            <div class="theme-switcher-container">
+                <i data-feather="sun" class="icon-inline"></i>
+                <label class="theme-switcher">
+                    <input type="checkbox" id="theme-toggle" aria-label="Alternar tema claro/escuro">
+                    <span class="slider"></span>
+                </label>
+                <i data-feather="moon" class="icon-inline"></i>
+            </div>
+        </header>
         
-        <div class="weather-container" id="main-content">
-            <h1 class="title">Clima e Notícias</h1>
+        <div class="weather-container card">
             <div class="search-box">
-                <input type="text" id="city-input" list="cities-datalist" placeholder="Digite uma cidade..." autocomplete="off">
+                <input type="text" id="city-input" placeholder="Digite o nome da cidade..." list="cities-datalist">
+                <button id="search-btn" aria-label="Buscar cidade"><span><i data-feather="search"></i></span></button>
                 <datalist id="cities-datalist"></datalist>
-                <button <""> id="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
+            </div>
+
+            <div id="favorites-container" class="favorites-container">
+                <h3 class="favorites-title"><i data-feather="star" class="icon-inline-small"></i> Favoritos</h3>
+                <div id="favorites-list" class="favorites-list"></div>
             </div>
             
-            <div class="loading-spinner" id="loading-spinner"></div>
-            <p class="feedback-message" id="feedback-message"></p>
-
             <div id="weather-info" class="weather-info hidden">
                 <div class="header-weather">
-                    <h2 class="city-name" id="city-name"></h2>
+                    <div class="city-info">
+                        <h2 class="city-name" id="city-name"></h2>
+                        <button id="favorite-btn" class="favorite-btn" aria-label="Adicionar aos favoritos">
+                            <i data-feather="star" class="icon-favorite"></i>
+                        </button>
+                    </div>
                     <div class="controls">
-                        <div id="local-time" class="local-time">
-                            <span class="day-of-week"></span>
-                            <span class="date-full"></span>
-                            <span class="time-only"></span>
+                        <div class="local-time">
+                            <span class="day-of-week" id="day-of-week"></span>
+                            <span class="date-full" id="date-full"></span>
+                            <span class="time-only" id="time-only"></span>
                         </div>
                         <button id="temp-toggle" class="temp-toggle">°F</button>
                     </div>
                 </div>
+
                 <div class="current-weather">
-                    <img id="weather-icon" src="" alt="Ícone do clima">
-                    <p class="temperature" id="temp"></p>
+                    <img id="weather-icon" class="weather-icon-container" src="" alt="Ícone do clima atual">
+                    <p class="temperature" id="current-temp"></p>
                 </div>
+                <p id="weather-description"></p>
+                
                 <div class="details-grid">
-                    <p class="description" id="description"></p>
-                    <p class="humidity" id="humidity"></p>
-                    <p class="wind-speed" id="wind-speed"></p>
-                    <p class="rain-volume" id="rain-volume"></p>
+                    <p><i data-feather="thermometer" class="icon-inline"></i> Sensação: <span id="feels-like"></span></p>
+                    <p><i data-feather="droplet" class="icon-inline"></i> Umidade: <span id="humidity"></span></p>
+                    <p><i data-feather="wind" class="icon-inline"></i> Vento: <span id="wind-speed"></span></p>
+                    <p><i data-feather="sunrise" class="icon-inline"></i> Nascer do sol: <span id="sunrise"></span></p>
+                    <p><i data-feather="sunset" class="icon-inline"></i> Pôr do sol: <span id="sunset"></span></p>
+                    <p><i data-feather="eye" class="icon-inline"></i> Visibilidade: <span id="visibility"></span></p>
+                    <p><i data-feather="cloud-off" class="icon-inline"></i> Qualidade do Ar: <span id="aqi"></span></p>
                 </div>
             </div>
+            <div id="loading" class="loading-spinner"></div>
+            <p id="error-message" class="error-message hidden"></p>
         </div>
 
-        <div id="hourly-forecast" class="hourly-forecast hidden">
-            <h2 class="section-title">Previsão Horária</h2>
-            <div id="hourly-container" class="hourly-container"></div>
+        <div class="hourly-forecast card hidden">
+            <h3 class="section-title">Previsão por Hora</h3>
+            <div class="hourly-container" id="hourly-forecast"></div>
         </div>
 
-        <div id="forecast-tabs" class="forecast-tabs hidden">
-            <button class="forecast-btn active" data-days="3">3 dias</button>
-            <button class="forecast-btn" data-days="5">5 dias</button>
+        <div class="daily-forecast card hidden">
+            <h3 class="section-title">Previsão para 7 Dias</h3>
+            <div class="forecast-container" id="forecast-container"></div>
         </div>
-        <div id="forecast-container" class="forecast-container hidden"></div>
 
-        <div id="news-container" class="news-container hidden">
-            <h2 class="news-title">Últimas Notícias</h2>
+        <div class="news-container card hidden">
+            <h3 class="section-title news-title">Últimas Notícias</h3>
             <div class="news-controls">
-                <label for="news-topic">Tópico:</label>
-                <select id="news-topic" class="news-select">
-                    <option value="breaking-news">Últimas notícias</option>
-                    <option value="world">Mundo</option>
-                    <option value="nation">Nacional</option>
-                    <option value="business">Negócios</option>
+                <label for="news-category" class="news-label hidden">Categoria de Notícias</label>
+                <select id="news-category" class="news-select">
+                    <option value="general">Geral</option>
                     <option value="technology">Tecnologia</option>
-                    <option value="entertainment">Entretenimento</option>
                     <option value="sports">Esportes</option>
+                    <option value="business">Negócios</option>
                     <option value="science">Ciência</option>
-                    <option value="health">Saúde</option>
                 </select>
             </div>
-            <div id="news-list" class="news-list"></div>
+            <div class="news-list" id="news-list"></div>
         </div>
     </div>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>

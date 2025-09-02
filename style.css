@@ -1,0 +1,297 @@
+/* DEFINIÇÃO DE VARIÁVEIS DE COR PARA TEMA CLARO E ESCURO */
+:root {
+    --bg-color: #f7f9fc;
+    --card-bg: #ffffff;
+    --text-color: #2c3e50;
+    --text-secondary-color: #5a6a79;
+    --accent-color: #4a90e2;
+    --secondary-color: #e3eaf3;
+    --border-color: #d1d9e6;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --border-radius: 16px;
+    --shadow: 0 8px 24px var(--shadow-color);
+    --uv-low: #28a745;
+    --uv-moderate: #ffc107;
+    --uv-high: #fd7e14;
+    --uv-very-high: #dc3545;
+    --uv-extreme: #6f42c1;
+}
+
+body.dark-mode {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --text-secondary-color: #a0a0a0;
+    --accent-color: #58a6ff;
+    --secondary-color: #2c2c2c;
+    --border-color: #444444;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem;
+    transition: background-color 0.3s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1000px;
+}
+
+/* CABEÇALHO PRINCIPAL E TEMA */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 1.5rem;
+}
+
+.title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin: 0;
+}
+
+.theme-switcher-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary-color);
+}
+
+.theme-switcher {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.theme-switcher input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 26px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--accent-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* FAVORITOS */
+.favorites-container {
+    margin: 1.5rem 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.favorites-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary-color);
+    margin-bottom: 0.75rem;
+    text-align: left;
+}
+
+.favorites-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.favorite-city-btn {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.favorite-city-btn:hover {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+/* BOTÃO FAVORITO (ESTRELA) */
+.city-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: var(--text-secondary-color);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.favorite-btn:hover {
+    color: var(--uv-moderate);
+    transform: scale(1.2);
+}
+.favorite-btn.is-favorite .icon-favorite {
+    fill: var(--uv-moderate);
+    color: var(--uv-moderate);
+}
+
+.section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+/* DETALHES GRID */
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+.details-grid p {
+    background-color: var(--secondary-color);
+    padding: 0.8rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+.details-grid p:hover {
+    transform: translateY(-3px);
+}
+
+/* ESTILOS PARA UV e AQI */
+.uv-low { color: var(--uv-low); }
+.uv-moderate { color: var(--uv-moderate); }
+.uv-high { color: var(--uv-high); }
+.uv-very-high { color: var(--uv-very-high); }
+.uv-extreme { color: var(--uv-extreme); }
+
+.aqi-1, .aqi-2, .aqi-3, .aqi-4, .aqi-5 {
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+}
+.aqi-1 { background-color: var(--uv-low); }
+.aqi-2 { background-color: var(--uv-moderate); }
+.aqi-3 { background-color: var(--uv-high); }
+.aqi-4 { background-color: var(--uv-very-high); }
+.aqi-5 { background-color: var(--uv-extreme); }
+
+/* Ícones */
+.icon-inline { vertical-align: middle; margin-right: 5px; stroke-width: 2px; color: var(--text-secondary-color); }
+.icon-inline-small { width: 1em; height: 1em; vertical-align: middle; margin-right: 3px; stroke-width: 1.8px; color: var(--text-color); }
+.details-grid .icon-inline { color: var(--accent-color); }
+
+/* --- DEMAIS ESTILOS --- */
+.search-box { display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem; position: relative; }
+#city-input { padding: 1rem 1.5rem; border: 2px solid var(--border-color); border-radius: 50px; outline: none; width: 70%; max-width: 400px; font-size: 1rem; transition: all 0.3s ease; background-color: var(--bg-color); color: var(--text-color); }
+#city-input:focus { border-color: var(--accent-color); }
+#search-btn { padding: 1rem 1.5rem; margin-left: -40px; border: none; border-radius: 50px; background-color: var(--accent-color); color: white; cursor: pointer; font-size: 1rem; transition: transform 0.2s ease, filter 0.2s ease; z-index: 10; }
+#search-btn:hover { filter: brightness(0.9); transform: scale(1.05); }
+.hidden { display: none !important; }
+.weather-info { animation: fadeIn 0.5s ease-in-out forwards; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.header-weather { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; }
+.city-name { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--text-color); text-align: left; }
+.controls { display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+.local-time { display: flex; flex-direction: column; align-items: flex-end; font-family: 'Montserrat', sans-serif; font-weight: 700; }
+.local-time .day-of-week { font-size: 1.1rem; color: var(--text-secondary-color); }
+.local-time .date-full { font-size: 1.1rem; color: var(--text-secondary-color); }
+.local-time .time-only { font-size: 1.5rem; color: var(--accent-color); }
+.temp-toggle { background-color: var(--secondary-color); border: none; border-radius: 50px; padding: 0.5rem 1rem; cursor: pointer; font-weight: 500; transition: filter 0.2s ease; margin-top: 10px; color: var(--text-color); }
+.temp-toggle:hover { filter: brightness(0.9); }
+.current-weather { display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+.weather-icon-container { width: 100px; height: 100px; }
+.temperature { font-family: 'Montserrat', sans-serif; font-size: 5rem; font-weight: 700; color: var(--text-color); }
+.hourly-container, .forecast-container { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 1rem; padding-bottom: 1rem; cursor: grab; }
+.hourly-container:active, .forecast-container:active { cursor: grabbing; }
+.hourly-item, .forecast-item { background-color: var(--secondary-color); padding: 1rem; border-radius: var(--border-radius); flex-shrink: 0; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; }
+.hourly-item:hover, .forecast-item:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+.hourly-item { width: 100px; }
+.forecast-item { width: 140px; }
+.weather-icon-small { width: 50px; height: 50px; margin: 0.5rem auto; }
+.weather-icon-medium { width: 60px; height: 60px; margin: 0.5rem auto; }
+.news-list { display: grid; grid-template-columns: 1fr; gap: 1.5rem; text-align: left; }
+.news-item { padding: 1.5rem; background-color: var(--secondary-color); border-radius: var(--border-radius); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); display: flex; align-items: center; gap: 1.2rem; }
+.news-title-link a { text-decoration: none; color: var(--text-color); font-weight: 600; transition: color 0.3s ease; }
+.news-title-link a:hover { color: var(--accent-color); text-decoration: underline; }
+.loading-spinner { display: none; border: 4px solid var(--secondary-color); border-top: 4px solid var(--accent-color); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.error-message { text-align: center; color: #e74c3c; font-size: 1.1em; margin-top: 15px; }
+
+/* Media Queries */
+@media (max-width: 768px) {
+    body { padding: 1rem; }
+    .main-container { padding: 1.5rem; gap: 1.5rem; }
+    .details-grid { grid-template-columns: 1fr; }
+    .header-weather { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+    .city-info, .controls { justify-content: center; width: 100%; }
+    .controls { align-items: center; }
+    .local-time { align-items: center; }
+}
